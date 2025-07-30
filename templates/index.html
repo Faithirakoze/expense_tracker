@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expense Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Expense Tracker</h1>
+
+    <form action="/add" method="post" class="flex flex-col md:flex-row gap-4 mb-6">
+      <input type="text" name="expense" placeholder="Expense" required
+             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      <input type="number" name="amount" placeholder="Amount (RWF)" required
+             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      <button type="submit"
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Add</button>
+    </form>
+
+    <form action="/report" method="get" class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-2">
+        <label for="filter" class="font-medium">Filter:</label>
+        <select name="filter" id="filter"
+                class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="all">All</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label for="currency" class="font-medium">Currency:</label>
+        <select name="currency" id="currency"
+                class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="RWF">RWF</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select>
+      </div>
+
+      <button type="submit"
+              class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">Load Report</button>
+    </form>
+
+    {% if report %}
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">Expense Report</h2>
+      <table class="w-full border border-gray-300 rounded-lg text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 border">Date</th>
+            <th class="p-2 border">Expense</th>
+            <th class="p-2 border">Amount (RWF)</th>
+            {% if currency != "RWF" %}
+              <th class="p-2 border">Amount ({{ currency }})</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in report %}
+          <tr class="hover:bg-gray-100">
+            <td class="p-2 border">{{ entry.date }}</td>
+            <td class="p-2 border">{{ entry.expense }}</td>
+            <td class="p-2 border">{{ entry.amount_rwf }}</td>
+            {% if currency != "RWF" %}
+              <td class="p-2 border">{{ entry.converted }}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="mt-4 space-y-1 text-gray-700">
+        <p><strong>Total (RWF):</strong> {{ total_rwf }}</p>
+        {% if currency != "RWF" %}
+          <p><strong>Total ({{ currency }}):</strong> {{ total_converted }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

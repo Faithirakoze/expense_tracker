@@ -1,0 +1,15 @@
+# ignore venv/ and .venv/
+venv/
+.env/
+
+# delete all .env files
+*.env
+
+# remove service_account.json
+service_account.json()
+
+# remove .csv file
+*.csv
+
+# remove __pycache__/
+__pycache__/

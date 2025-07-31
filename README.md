@@ -47,7 +47,6 @@ Access the app at http://127.0.0.1:5000
 
     Paste the following:
 
-    ```bash
     [Unit]
     Description=Gunicorn instance to serve expense_tracker
     After=network.target
@@ -76,7 +75,6 @@ Access the app at http://127.0.0.1:5000
 
     Then:
 
-    ```bash
     sudo nano /etc/nginx/sites-available/expense_tracker
 
     Paste:
@@ -95,7 +93,7 @@ Access the app at http://127.0.0.1:5000
 
     Enable and reload:
 
-    ```bash
+
     sudo ln -s /etc/nginx/sites-available/expense_tracker /etc/nginx/sites-enabled
     sudo nginx -t
     sudo systemctl reload nginx
@@ -108,7 +106,6 @@ On the load balancer server:
 
     Edit the HAProxy config:
 
-    ```bash
     sudo nano /etc/haproxy/haproxy.cfg
 
     Add:
@@ -124,11 +121,10 @@ On the load balancer server:
 
     Restart HAProxy:
 
-    ```bash
     sudo systemctl restart haproxy
 
     Testing Load Balancer:
-    
+
     Visit the Load Balancer’s IP in a browser.
 
     Refresh the page multiple times.

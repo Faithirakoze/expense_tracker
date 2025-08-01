@@ -26,7 +26,7 @@ A Flask-based expense tracking web application allowing users to add expenses, f
     ```bash
     flask run
 
-Access the app at http://127.0.0.1:5000
+Access the app at https://irakoze24.tech/
 
 ## Deployment on Web01 and Web02
 1. Copy project files to both servers via SSH or Git.
@@ -79,10 +79,9 @@ Access the app at http://127.0.0.1:5000
 
     Paste:
 
-    ```bash
     server {
         listen 80;
-        server_name localhost;
+        server_name <web-server-IP>;
 
         location / {
             proxy_pass http://127.0.0.1:8000;
@@ -101,14 +100,16 @@ Access the app at http://127.0.0.1:5000
 ## Load Balancer (HAProxy) Configuration
 On the load balancer server:
 
-    ```bash
+1. SSH into lb-01
+    ssh -i ~/.ssh/school ubuntu@44.204.76.162
+
     sudo apt install haproxy -y
 
     Edit the HAProxy config:
 
     sudo nano /etc/haproxy/haproxy.cfg
 
-    Add:
+2. Add at the bottom:
 
     frontend http_front
         bind *:80
@@ -123,9 +124,9 @@ On the load balancer server:
 
     sudo systemctl restart haproxy
 
-    Testing Load Balancer:
+    Testing Load Balancer: curl -I http://44.204.76.162
 
-    Visit the Load Balancer’s IP in a browser.
+    Visit the Load Balancer’s IP in a browser: http://44.204.76.162
 
     Refresh the page multiple times.
 

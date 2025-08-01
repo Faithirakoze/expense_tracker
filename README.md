@@ -131,3 +131,44 @@ On the load balancer server:
     Refresh the page multiple times.
 
     Observe logs or add a unique header per server to confirm that requests alternate between Web01 and Web02.
+
+## APIs Used
+
+### 1. [ExchangeRate.host](https://exchangerate.host/#/)
+Used to fetch real-time currency conversion rates for user expenses. It is a free, no-authentication-required API based on the European Central Bank and other sources.
+
+Endpoint: https://api.exchangerate.host/convert?from=USD&to=EUR&amount=1
+
+- **Features Used:**
+- Currency conversion
+- Historical exchange rates
+
+> Credit: [ExchangeRate.host](https://exchangerate.host) for providing a free, reliable API.
+
+### 2. [Google Sheets API](https://developers.google.com/sheets/api)
+Used (via `gspread` and `oauth2client`) to log or sync expenses in a Google Sheet for backup or collaborative reporting.
+
+- **Features Used:**
+- Append rows
+- Read and write values
+- Authenticate using service account credentials
+
+> Credit: Google Developers for the Google Sheets API and the `gspread` Python wrapper.
+
+## Development Challenges & Solutions
+
+### 1. Activating Virtual Environment on Windows**
+- **Challenge:** Activation failed with `source venv/bin/activate`.
+- **Solution:** Used the correct Windows path: `source venv/Scripts/activate`.
+
+---
+
+### 2. Flask Not Recognizing App**
+- **Challenge:** Error: *Could not locate a Flask application*.
+- **Solution:** Exported the `FLASK_APP` variable:
+```bash
+export FLASK_APP=main.py
+
+### 2. Load Balancer Testing**
+- **Challenge:** Verifying round-robin load balancing on HAProxy.*.
+- **Solution:**  Added unique response headers in Nginx config (e.g., X-Served-By) to confirm switching between web servers.
